@@ -1,0 +1,17 @@
+services:
+
+  hgvs_api:
+    build:
+      context: ./hgvs_api/
+    command: gunicorn app:app --bind 0.0.0.0:8000
+    expose:
+      - 8000
+    hostname: hgvs_api
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./nginx/conf.d/:/etc/nginx/conf.d/
+    container_name: nginx

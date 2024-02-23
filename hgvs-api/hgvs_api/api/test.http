@@ -1,0 +1,112 @@
+### Check the API
+GET http://127.0.0.1:8000/hello
+
+
+### Good request
+POST http://127.0.0.1:5000/coordinates
+Content-Type: application/json
+
+{
+  "hgvs": "NC_000023.11:g.32389644G>A"
+}
+
+### Good request
+POST http://127.0.0.1:5000/coordinates
+Content-Type: application/json
+
+{
+  "hgvs": "NM_005101.4(ISG15):c.4-1G>A"
+}
+
+### Good request c.
+POST http://127.0.0.1:8000/coordinates
+Content-Type: application/json
+
+{
+  "hgvs": "NM_001002261.3:c.805_809del5"
+}
+
+### Good request c. with negative offset
+POST http://127.0.0.1:8000/coordinates
+Content-Type: application/json
+
+{
+  "hgvs": "NM_001197225.2:c.-183C>T"
+}
+
+### V600
+POST http://127.0.0.1:8000/coordinates
+Content-Type: application/json
+
+{
+  "hgvs": "NM_004333.4:c.1799T>A"
+}
+
+### BEAN1 CM reference?
+POST http://127.0.0.1:8000/coordinates
+Content-Type: application/json
+
+{
+  "hgvs": "CM000678.2:g.66469721C>T"
+}
+
+### BRCA2 Ensembl
+POST http://127.0.0.1:5000/coordinates
+Content-Type: application/json
+
+{
+  "hgvs": "ENST00000380152.8:c.-199A>C"
+}
+
+
+
+### BEAN1 up-to-date(?) Ensembl
+POST http://127.0.0.1:8000/coordinates
+Content-Type: application/json
+
+{
+  "hgvs": "ENST00000536005.7:c.145C>T"
+}
+
+
+### BEAN1 older Ensembl
+POST http://127.0.0.1:8000/coordinates
+Content-Type: application/json
+
+{
+  "hgvs": "ENST00000622872.4:c.-183C>T"
+}
+
+### BEAN1 older Ensembl
+POST http://127.0.0.1:8000/coordinates
+Content-Type: application/json
+
+{
+  "hgvs": "ENST00000275493.2:c.2369C>T"
+}
+
+### BEAN1 older Ensembl
+POST http://127.0.0.1:8000/coordinates
+Content-Type: application/json
+
+{
+  "hgvs": "ENST00000314126.4:c.*123A>G "
+}
+
+### LRG reference
+POST http://127.0.0.1:8000/coordinates
+Content-Type: application/json
+
+{
+  "hgvs": "LRG_199:g.954966C>T"
+}
+
+
+### Bad Request
+POST http://127.0.0.1:8000/coordinates
+Content-Type: application/json
+
+{
+"hgvs": "bad"
+}
+
