@@ -1,11 +1,15 @@
 import logging
 
 from flask import Flask, request
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 from util import oc_response
 from service import coordinates
 
 app = Flask('hgvs_api')
+app.wsgi_app = ProxyFix(
+    app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1
+)
 
 
 @app.route('/hello')
@@ -19,7 +23,7 @@ def get_coordinates():
     if not h:
         return oc_response(400, message='HGVS parameter missing')
 
-    r = coordinates.get_coordinates(hgvs=h)
+    r = coordinates.get_coordinates(hgvs_string=h)
     if type(r) is str:
         return oc_response(400, message=r, **{'hgvs': h})
 

@@ -1,7 +1,25 @@
 import logging
 
-from hgvs.easy import *
+# from hgvs.easy import *
+import hgvs
+import hgvs.parser
+import hgvs.normalizer
+import hgvs.validator
+from hgvs.assemblymapper import AssemblyMapper
+from cdot.hgvs.dataproviders import RESTDataProvider
 from hgvs.exceptions import HGVSParseError, HGVSError, HGVSDataNotAvailableError
+
+# parser
+hp = hgvs.parser.Parser()
+# data provider
+hdp = RESTDataProvider()  # cdot API server at cdot.cc
+# normalizer
+hn = hgvs.normalizer.Normalizer(hdp)
+# validator
+hv = hgvs.validator.Validator(hdp)
+# Assembly mappers for hg37 and hg38
+am37 = AssemblyMapper(hdp, assembly_name='GRCh37')
+am38 = AssemblyMapper(hdp, assembly_name='GRCh38')
 
 # hg38 reference dbs and versions per chromosome
 hg38_references = {
@@ -60,7 +78,6 @@ hg37_references = {
     'NC_012920.1': 'chrM'
 }
 
-
 hg38_prefixes = {
     'chr1': 'NC_000001.11',
     'chr2': 'NC_000002.12',
@@ -96,17 +113,17 @@ def format_ref_or_alt(s):
     return s.upper()
 
 
-def get_coordinates(hgvs):
+def get_coordinates(hgvs_string):
     # 1. Parse
     try:
-        v = parse(hgvs)
+        v = hp.parse(hgvs_string)
     except HGVSParseError as e:
         return repr(e)
     logging.warning(f'v: {str(v)}')
 
     # 2. Validate
     try:
-        valid = validate(v)
+        valid = hv.validate(v)
     except HGVSError as e:
         return repr(e)
     if not valid:
@@ -114,7 +131,7 @@ def get_coordinates(hgvs):
 
     # 3. Normalize
     try:
-        n = normalize(v)
+        n = hn.normalize(v)
     except HGVSError as e:
         return repr(e)
     logging.warning(f'n: {str(n)}')
@@ -152,13 +169,34 @@ def get_coordinates(hgvs):
     else:
         return f'Reference assembly "{g.ac}" not found in hg38 or hg37'
 
+    alt = ''
+    if g.posedit.edit.type == 'dup':
+        alt = g.posedit.edit.ref
+    else:
+        alt = g.posedit.edit.alt
     return {
-        "original": str(hgvs),
+        "original": str(hgvs_string),
         "hgvs": str(g),
         "assembly": assembly,
         "chrom": chrom,
         "pos": g.posedit.pos.start.base,
         "ref": format_ref_or_alt(g.posedit.edit.ref),
-        "alt": format_ref_or_alt(g.posedit.edit.alt),
+        "alt": format_ref_or_alt(alt),
         "is_valid": valid
     }
+
+
+def get_all_coordinates(hgvs_list):
+    coordinates = []
+    errors = []
+    for hgvs_string in hgvs_list:
+        r = get_coordinates(hgvs_string)
+        if type(r) is str:
+            errors.append(r)
+        else:
+            coordinates.append(r)
+
+    response = {"coordinates": coordinates}
+    if len(errors) > 0:
+        response["errors"] = errors
+    return response
