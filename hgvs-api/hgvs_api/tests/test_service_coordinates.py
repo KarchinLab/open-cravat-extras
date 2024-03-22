@@ -47,6 +47,8 @@ many_hgvs = [
     'NM_001354619.1:c.-593_-592delinsTT'
 ]
 
+bad_hgvs = 'bad_should_error'
+almost_good_hgvs = 'AA_0001234.1:g.12345a>c'
 
 class TestServiceCoordinates(unittest.TestCase):
     def test_format_ref_or_alt(self):
@@ -79,6 +81,15 @@ class TestServiceCoordinates(unittest.TestCase):
         self.assertEqual(8, len(resp['coordinates']))
         has_errors = 'errors' in resp
         self.assertFalse(has_errors)
+
+    def test_coordinates_bad_hgvs(self):
+        resp = coordinates.get_coordinates(bad_hgvs)
+        self.assertEqual('HGVSParseError("bad_should_error: char 10: expected one of \'(\', \'.\', \':\', or a letter or digit")', resp)
+
+    def test_coordinates_almost_good_hgvs(self):
+        resp = coordinates.get_coordinates(almost_good_hgvs)
+        self.assertEqual('HGVSInvalidVariantError(\'Accession (AA_0001234.1) is not known to be compatible with variant type g\')', resp)
+
 
 if __name__ == '__main__':
     unittest.main()
