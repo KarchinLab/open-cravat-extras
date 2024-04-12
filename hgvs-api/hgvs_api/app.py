@@ -3,8 +3,8 @@ import logging
 from flask import Flask, request
 from werkzeug.middleware.proxy_fix import ProxyFix
 
-from util import oc_response
 from service import coordinates
+from util import oc_response
 
 app = Flask('hgvs_api')
 app.wsgi_app = ProxyFix(
@@ -46,5 +46,5 @@ def get_coordinates_all():
 
 
 if __name__ == '__main__':
-    logging.Logger.setLevel(level=logging.DEBUG)
+    logging.getLogger().setLevel(level=logging.DEBUG)
     app.run()
