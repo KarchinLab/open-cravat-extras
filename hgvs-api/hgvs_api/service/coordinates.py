@@ -181,8 +181,10 @@ def get_coordinates(hgvs_string):
     # 5. Check if the g. is in one of our references
     if g.ac in hg38_references.keys():
         chrom = hg38_references[g.ac]
+        assembly = 'hg38'
     elif g.ac in hg37_references.keys():
         chrom = hg37_references[g.ac]
+        assembly = 'hg37'
     else:
         return f'Reference assembly "{g.ac}" not found in hg38 or hg37'
 

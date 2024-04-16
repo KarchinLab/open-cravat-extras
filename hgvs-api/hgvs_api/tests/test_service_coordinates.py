@@ -5,7 +5,7 @@ from service import coordinates
 good_hgvs = 'NC_000023.11:g.32389644G>A'
 good_hgvs_resp = {
   "alt": "A",
-  "assembly": "None",
+  "assembly": "hg38",
   "chrom": "chrX",
   "hgvs": "NC_000023.11:g.32389644G>A",
   "is_valid": True,
