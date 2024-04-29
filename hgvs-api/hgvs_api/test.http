@@ -35,7 +35,7 @@ Content-Type: application/json
 }
 
 ### V600
-POST http://127.0.0.1:8000/coordinates
+POST http://127.0.0.1:5000/coordinates
 Content-Type: application/json
 
 {
@@ -68,6 +68,18 @@ Content-Type: application/json
   "hgvs": "ENST00000536005.7:c.145C>T"
 }
 
+
+
+### Coordinates all
+POST http://127.0.0.1:8000/coordinates_all
+Content-Type: application/json
+
+{
+  "hgvs": [
+    "ENST00000536005.7:c.145C>T",
+    "NM_004333.4:c.1799T>A"
+    ]
+}
 
 ### BEAN1 older Ensembl
 POST http://127.0.0.1:8000/coordinates

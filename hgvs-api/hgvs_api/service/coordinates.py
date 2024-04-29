@@ -113,6 +113,20 @@ def format_ref_or_alt(s):
     return s.upper()
 
 
+def validate_if_coding(variant):
+    # ensure whe have start pos
+    if not hasattr(variant, 'posedit'): return False
+    if not hasattr(variant.posedit, 'pos'): return False
+    if not hasattr(variant.posedit.pos, 'start'): return False
+    # not valid if is_intronic exists AND it is False
+    if hasattr(variant.posedit.pos.start, 'is_intronic') and variant.posedit.pos.start.is_intronic: return False
+    # ensure we have end pos
+    if not hasattr(variant.posedit.pos, 'end'): return True
+    # not valid if is_intronic exists AND it is False
+    if hasattr(variant.posedit.pos.end, 'is_intronic') and variant.posedit.pos.end.is_intronic: return False
+    return True
+
+
 def get_coordinates(hgvs_string):
     # 1. Parse
     try:
@@ -123,18 +137,21 @@ def get_coordinates(hgvs_string):
 
     # 2. Validate
     try:
-        valid = hv.validate(v)
+        valid = validate_if_coding(v)
     except HGVSError as e:
         return repr(e)
-    if not valid:
-        return 'Invalid HGVS'
+    # if not valid:
+    #     return 'Invalid HGVS'
 
     # 3. Normalize
-    try:
-        n = hn.normalize(v)
-    except HGVSError as e:
-        return repr(e)
-    logging.warning(f'n: {str(n)}')
+    if valid:
+        try:
+            n = hn.normalize(v)
+        except HGVSError as e:
+            return repr(e)
+    else:
+        # pretend the intronic variants are valid
+        n = v
 
     # 4. Map to our transcript versions
     assembly = 'None'
@@ -164,8 +181,10 @@ def get_coordinates(hgvs_string):
     # 5. Check if the g. is in one of our references
     if g.ac in hg38_references.keys():
         chrom = hg38_references[g.ac]
+        assembly = 'hg38'
     elif g.ac in hg37_references.keys():
         chrom = hg37_references[g.ac]
+        assembly = 'hg37'
     else:
         return f'Reference assembly "{g.ac}" not found in hg38 or hg37'
 

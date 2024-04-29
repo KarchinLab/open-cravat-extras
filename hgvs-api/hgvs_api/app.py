@@ -3,8 +3,8 @@ import logging
 from flask import Flask, request
 from werkzeug.middleware.proxy_fix import ProxyFix
 
-from util import oc_response
 from service import coordinates
+from util import oc_response
 
 app = Flask('hgvs_api')
 app.wsgi_app = ProxyFix(
@@ -30,6 +30,21 @@ def get_coordinates():
     return oc_response(200, message='HGVS successfully converted to coordinates', **r)
 
 
+@app.route('/coordinates_all', methods=['post'])
+def get_coordinates_all():
+    h_str = request.json.get('hgvs')
+    if not h_str:
+        return oc_response(400, message='HGVS parameter missing')
+    if type(h_str) is not list:
+        return oc_response(400, message='HGVS parameter must be a list of strings')
+
+    r = coordinates.get_all_coordinates(hgvs_list=h_str)
+    if type(r) is str:
+        return oc_response(400, message=r, **{'hgvs': h_str})
+
+    return oc_response(200, message=f'{len(h_str)} HGVS strings converted to coordinates', **r)
+
+
 if __name__ == '__main__':
-    logging.Logger.setLevel(level=logging.DEBUG)
+    logging.getLogger().setLevel(level=logging.DEBUG)
     app.run()
