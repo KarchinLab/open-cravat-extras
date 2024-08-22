@@ -61,6 +61,9 @@ many_hgvs = [
 bad_hgvs = 'bad_should_error'
 almost_good_hgvs = 'AA_0001234.1:g.12345a>c'
 
+dup_hgvs = 'NM_000492.4:c.2046dup'
+dup_resp = {'alt': 'A', 'assembly': 'hg38', 'chrom': 'chr7', 'hgvs': 'NC_000007.14:g.117592219dup', 'is_valid': True, 'original': 'NM_000492.4:c.2046dup', 'pos': 117592219, 'ref': '-'}
+
 class TestServiceCoordinates(unittest.TestCase):
     def test_format_ref_or_alt(self):
         upper_a = coordinates.format_ref_or_alt('A')
@@ -104,6 +107,11 @@ class TestServiceCoordinates(unittest.TestCase):
     def test_coordinates_almost_good_hgvs(self):
         resp = coordinates.get_coordinates(almost_good_hgvs)
         self.assertTrue(resp.find('HGVSDataNotAvailableError') >= 0)
+
+    def test_coordinates_duplicate_should_look_like_insert(self):
+        resp = coordinates.get_coordinates(dup_hgvs)
+        self.assertEqual(dup_resp, resp)
+
 
 
 if __name__ == '__main__':
