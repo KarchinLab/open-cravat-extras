@@ -143,15 +143,9 @@ def get_coordinates(hgvs_string):
     # if not valid:
     #     return 'Invalid HGVS'
 
-    # 3. Normalize
-    if valid:
-        try:
-            n = hn.normalize(v)
-        except HGVSError as e:
-            return repr(e)
-    else:
-        # pretend the intronic variants are valid
-        n = v
+    # # 3. Normalize
+    # TODO Normalization has been giving issues with valid HGVS strings, so disable for now
+    n = v
 
     # 4. Map to our transcript versions
     assembly = 'None'
@@ -189,9 +183,12 @@ def get_coordinates(hgvs_string):
         return f'Reference assembly "{g.ac}" not found in hg38 or hg37'
 
     alt = ''
+    ref = ''
     if g.posedit.edit.type == 'dup':
         alt = g.posedit.edit.ref
+        ref = ''
     else:
+        ref = g.posedit.edit.ref
         alt = g.posedit.edit.alt
     return {
         "original": str(hgvs_string),
@@ -199,7 +196,7 @@ def get_coordinates(hgvs_string):
         "assembly": assembly,
         "chrom": chrom,
         "pos": g.posedit.pos.start.base,
-        "ref": format_ref_or_alt(g.posedit.edit.ref),
+        "ref": format_ref_or_alt(ref),
         "alt": format_ref_or_alt(alt),
         "is_valid": valid
     }
