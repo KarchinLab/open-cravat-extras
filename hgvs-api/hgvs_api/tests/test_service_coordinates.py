@@ -1,17 +1,16 @@
 import unittest
 from service import coordinates
 
-
 good_hgvs = 'NC_000023.11:g.32389644G>A'
 good_hgvs_resp = {
-  "alt": "A",
-  "assembly": "hg38",
-  "chrom": "chrX",
-  "hgvs": "NC_000023.11:g.32389644G>A",
-  "is_valid": True,
-  "original": "NC_000023.11:g.32389644G>A",
-  "pos": 32389644,
-  "ref": "G"
+    "alt": "A",
+    "assembly": "hg38",
+    "chrom": "chrX",
+    "hgvs": "NC_000023.11:g.32389644G>A",
+    "is_valid": True,
+    "original": "NC_000023.11:g.32389644G>A",
+    "pos": 32389644,
+    "ref": "G"
 }
 
 ensembl_hgvs = 'ENST00000380152.8:c.-199A>C'
@@ -64,6 +63,31 @@ almost_good_hgvs = 'AA_0001234.1:g.12345a>c'
 dup_hgvs = 'NM_000492.4:c.2046dup'
 dup_resp = {'alt': 'A', 'assembly': 'hg38', 'chrom': 'chr7', 'hgvs': 'NC_000007.14:g.117592219dup', 'is_valid': True, 'original': 'NM_000492.4:c.2046dup', 'pos': 117592219, 'ref': '-'}
 
+del_hgvs = 'NC_000019.10:g.12943758_12943809del'
+del_resp = {
+    'alt': '-',
+    'assembly': 'hg38',
+    'chrom': 'chr19',
+    'hgvs': 'NC_000019.10:g.12943758_12943809del',
+    'is_valid': True,
+    'original': 'NC_000019.10:g.12943758_12943809del',
+    'pos': 12943758,
+    'ref': 'CTTAAGGAGGAGGAAGAAGACAAGAAACGCAAAGAGGAGGAGGAGGCAGAGG'
+}
+
+simple_del_hgvs = 'NC_000017.11:g.58357806del'
+simple_del_resp = {
+    'alt': '-',
+    'assembly': 'hg38',
+    'chrom': 'chr17',
+    'hgvs': 'NC_000017.11:g.58357806del',
+    'is_valid': True,
+    'original': 'NC_000017.11:g.58357806del',
+    'pos': 58357806,
+    'ref': 'C'
+}
+
+
 class TestServiceCoordinates(unittest.TestCase):
     def test_format_ref_or_alt(self):
         upper_a = coordinates.format_ref_or_alt('A')
@@ -112,6 +136,11 @@ class TestServiceCoordinates(unittest.TestCase):
         resp = coordinates.get_coordinates(dup_hgvs)
         self.assertEqual(dup_resp, resp)
 
+    def test_coordinates_delete(self):
+        resp = coordinates.get_coordinates(del_hgvs)
+        self.assertEqual(del_resp, resp)
+        resp = coordinates.get_coordinates(simple_del_hgvs)
+        self.assertEqual(simple_del_resp, resp)
 
 
 if __name__ == '__main__':
