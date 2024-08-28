@@ -130,7 +130,7 @@ class TestServiceCoordinates(unittest.TestCase):
 
     def test_coordinates_almost_good_hgvs(self):
         resp = coordinates.get_coordinates(almost_good_hgvs)
-        self.assertTrue(resp.find('HGVSDataNotAvailableError') >= 0)
+        self.assertTrue(resp.find('not found in hg38 or hg37') >= 0)
 
     def test_coordinates_duplicate_should_look_like_insert(self):
         resp = coordinates.get_coordinates(dup_hgvs)
