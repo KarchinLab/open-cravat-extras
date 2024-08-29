@@ -143,9 +143,16 @@ def get_coordinates(hgvs_string):
     # if not valid:
     #     return 'Invalid HGVS'
 
-    # # 3. Normalize
-    # TODO Normalization has been giving issues with valid HGVS strings, so disable for now
-    n = v
+    # 3. Normalize
+    if valid:
+        try:
+            n = hn.normalize(v)
+        except HGVSError as e:
+            # pretend the intronic variants are valid
+            n = v
+    else:
+        # pretend the intronic variants are valid
+        n = v
 
     # 4. Map to our transcript versions
     assembly = 'None'
