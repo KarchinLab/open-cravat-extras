@@ -1,8 +1,179 @@
 #oc-svi {
+    width: 100%;
+    padding: 10px;
+}
+
+#oc-svi-container {
+    display: grid;
+    align-items: center;
+    justify-content: center;
+}
+
+#oc-svi-examples-container {
+    margin-bottom: 5px;
+    display: grid;
+    justify-content: right;
+}
+
+.oc-svi-text-block {
+    max-width: 781px;
+    margin-left: 10px;
+}
+
+#oc-svi-examples.show-examples {
+    visibility: visible;
+}
+
+#oc-svi-examples {
+    display: grid;
+    border: 2px solid lightblue;
+    padding: 10px;
+    margin-bottom: 5px;
+    font-family: 'Inter', 'Fira Code', sans-serif;
+    text-align: center;
+    background: white;
+    visibility: hidden;
+}
+
+#oc-svi-examples-close-btn {
+    height: 18px;
+    width: 18px;
+    background: #016bff;
+    padding: 2px;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    border-radius: 3px;
+    justify-self: right;
+    margin-bottom: -18px;
+    cursor: pointer;
+    z-index: 999;
+}
+
+#oc-svi-examples-btn {
+    justify-self: right;
+}
+
+.top-list {
+    display: flex;
+    margin: 1em;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    row-gap: 1em;
+}
+
+.example {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-content: flex-start;
+    margin-left: 1em;
+    margin-right: 1em;
+    align-items: flex-start;
+    flex: 0 0 13em;
+}
+
+.example-label {
+    align-self: flex-start;
+    font-size: small;
+    font-weight: bold;
+}
+
+.oc-svi-light {
+    color: lightgray;
+}
+
+#oc-svi-form {
+    display: grid;
+    grid-template-columns: 1fr 4em 3em;
+    column-gap: .5em;
+    flex-grow: 1;
+    font-family: 'Inter', 'Fira Code', sans-serif;
     width: 800px;
+    /*height: 48px;*/
+    padding: .5em 1em .5em 1em;
     border: #11557C 2px solid;
     border-radius: 40px;
     font-size: 20px;
     line-height: 30px;
-    padding: 10px;
+    background: white;
+    box-sizing: border-box;
+}
+
+#oc-svi-input {
+    border: none;
+    font-size: 18px;
+}
+#oc-svi-input:focus-visible {
+    outline: none;
+}
+#oc-svi-input:focus {
+    outline: none;
+}
+
+.oc-svi-select-container {
+    font-size: 18px;
+    border-left: 1px solid lightgray;
+    border-right: 1px solid lightgray;
+    border-top: none;
+    border-bottom: none;
+    width: 100%;
+    padding-left: 10px;
+    padding-right: 10px;
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    align-content: center;
+}
+
+#oc-svi-assembly-label {
+    font-family: "Fira Code Light", sans-serif;
+    font-size: small;
+    font-weight: 200;
+    text-transform: uppercase;
+}
+
+#oc-svi-assembly {
+    width: 100%;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 18px;
+    margin-left: -4px;
+}
+
+#oc-svi-submit-button {
+    font-size: 18px;
+    border-radius: 2.5em;
+    background-color: #016bff;
+    color: white;
+    margin-left: 1em;
+    width: 2.5em;
+    height: 2.5em;
+    border: none;
+    padding: 9px;
+    cursor: pointer;
+    align-self: center;
+}
+
+#oc-svi-error {
+    align-self: center;
+    font-size: 18px;
+    font-family: 'Inter', 'Fira Code', sans-serif;
+    color: lightgray;
+    margin: 34px;
+    text-align: center;
+}
+
+.oc-svi-text-button {
+    font-family: 'Inter', 'Fira Code', sans-serif;
+    font-size: 16px;
+    border: none;
+    border-bottom: 1px #11557C dotted;
+    background: transparent;
+    cursor: pointer;
+}
+.oc-svi-text-button:hover {
+    border: none;
+    margin-bottom: 1px;
+    outline: 1px #11557C dashed;
 }

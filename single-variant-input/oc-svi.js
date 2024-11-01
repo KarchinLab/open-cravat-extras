@@ -12,7 +12,8 @@
  **/
 
 // Base URL for the single variant page
-const API_URL = 'https://run.opencravat.org/webapps/variantreport/index.html';
+// const API_URL = 'https://run.opencravat.org/webapps/variantreport/index.html';
+const API_URL = 'http://0.0.0.0:8080/webapps/variantreport/index.html';
 // types of input allowed
 class TYPES {
     static DBSNP = 'dbsnp';
@@ -87,6 +88,7 @@ function parseCoordinates(input) {
     }
     let chromosome = findChromosome(parts[0]);
     if (chromosome === false) { return false; }
+    parts[0] = chromosome;
     if (Number.isNaN(Number.parseInt(parts[1]))) { return false; }
     const validBasesRegex = /^[acgt-]+$/;
     if (!validBasesRegex.test(parts[2])) { return false; }
@@ -152,12 +154,24 @@ function handleSubmit(event) {
         error.style.display = '';
     } else {
         const url = buildUrl(inputType, input);
-        let error = document.getElementById('oc-svi-error');
-        error.textContent = `input: ${input}, type: ${inputType} url: ${url}`;
-        error.style.display = '';
         window.open(url, '_blank');
     }
     event.preventDefault();
+}
+
+function showExamples() {
+    document.getElementById('oc-svi-examples').classList.add('show-examples');
+}
+
+function hideExamples() {
+    document.getElementById('oc-svi-examples').classList.remove('show-examples');
+}
+
+function handleExampleButton(evt) {
+    const value = evt.currentTarget.value;
+    if (value) {
+        document.getElementById('oc-svi-input').value = value;
+    }
 }
 
 // entry point, on document.ready, find the oc-svi container and replace it's html content with our
@@ -167,18 +181,61 @@ document.addEventListener('DOMContentLoaded', ()  => {
     if (!inputContainer) return;
 
     inputContainer.innerHTML = `
-        <form id="oc-svi-form">
-            <input id="oc-svi-input" type="text" placeholder="Enter a variant HGVS, rsID, Clingen Allele Registry ID, or genomic coordinates." />
-            <select name="oc-svi-assembly" id="oc-svi-assembly">
-                <option value="hg38">hg38</option>
-                <option value="hg19">hg19</option>
-            </select>
-            <button id="oc-submit-button" type="submit">Submit</button>
-        </form>
-        <div id="oc-svi-error" style="display: none">
-            Could not determine input type. Please see our <button id="oc-svi-error-examples-btn" type="button">examples</button> check your input.
+        <div id="oc-svi-container">
+            <div id="oc-svi-examples-container" class="oc-svi-text-block">
+                <div id="oc-svi-examples">
+                    <div id="oc-svi-examples-close-btn" title="Close"><img src="close.svg" alt="Close" /></div>
+                    <div>Examples</div>
+                    <div class="top-list">
+                        <button class="example oc-svi-text-button" value="NM_000051.4:c.2413C>T">
+                            <div class="example-label">HGVS</div>
+                            <div>NM_000051.4:c.2413C&gt;T</div>
+                        </button>
+                        <button class="example oc-svi-text-button" value="rs121913514">
+                            <div class="example-label">dbSNP</div>
+                            <div>rs121913514</div></button>
+                        <button class="example oc-svi-text-button" value="CA10578967">
+                            <div class="example-label">ClinGen Allele Registry</div>
+                            <div class="">CA10578967</div>
+                        </button>
+                        <button class="example oc-svi-text-button" value="chr3 179218293 G A">
+                            <div class="example-label">SNV</div><div>
+                            <div>chr3 179218293 G A</div></div>
+                        </button>
+                            <button class="example oc-svi-text-button" value="chr10 87960891 - T">
+                            <div class="example-label">Insertion</div>
+                            <div>chr10 87960891 - T</div>
+                        </button>
+                        <button class="example oc-svi-text-button" value="chr10 87961046 ACTT -">
+                            <div class="example-label">Deletion</div>
+                            <div>chr10 87961046 ACTT -</div>
+                        </button>
+                    </div>
+                </div>
+                <button class="oc-svi-text-button oc-svi-light" id="oc-svi-examples-btn">Examples</button>
+            </div>
+            <form id="oc-svi-form">
+                <input id="oc-svi-input" type="text" placeholder="Enter a variant HGVS, rsID, Clingen Allele Registry ID, or genomic coordinates." />
+                <div class="oc-svi-select-container">
+                    <label for="oc-svi-assembly" id="oc-svi-assembly-label">Assembly</label>
+                    <select name="oc-svi-assembly" id="oc-svi-assembly">
+                        <option value="hg38">hg38</option>
+                        <option value="hg19">hg19</option>
+                    </select>
+                </div>
+                <button id="oc-svi-submit-button" type="submit" title="Search"><img src="search.svg" alt="Search" /></button>
+            </form>
+            <div id="oc-svi-error" class="oc-svi-text-block" style="display: none">
+                Could not determine input type. Please see our <button id="oc-svi-examples-error-btn" class="oc-svi-text-button oc-svi-light" type="button">examples</button>.
+            </div>
         </div>
         `;
     document.getElementById('oc-svi-form').addEventListener('submit', handleSubmit);
-    document.getElementById('oc-submit-button').addEventListener('click', handleSubmit);
+    document.getElementById('oc-svi-submit-button').addEventListener('click', handleSubmit);
+    document.getElementById('oc-svi-examples-btn').addEventListener('click', showExamples);
+    document.getElementById('oc-svi-examples-error-btn').addEventListener('click', showExamples);
+    document.getElementById('oc-svi-examples-close-btn').addEventListener('click', hideExamples);
+    Array.from(document.getElementsByClassName('example')).forEach(btn => {
+        btn.addEventListener('click', handleExampleButton);
+    });
 });
