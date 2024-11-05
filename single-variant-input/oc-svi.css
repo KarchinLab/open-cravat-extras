@@ -3,10 +3,14 @@
     padding: 10px;
     font-family: 'Inter', 'Fira Sans', sans-serif;
 }
+#oc-svi *  {
+    font-family: 'Inter', 'Fira Sans', sans-serif;
+}
 
 h1.oc-svi-text-block {
     font-size: 55px;
     margin-bottom: 0;
+    margin-top: 1em;
 }
 
 h2.oc-svi-text-block {
@@ -29,7 +33,6 @@ h2.oc-svi-text-block {
 .oc-svi-text-block {
     max-width: 781px;
     margin: .5em;
-    font-family: 'Inter', 'Fira Sans', sans-serif;
     color: #ffffff;
     text-align: center;
 }
@@ -49,7 +52,6 @@ h2.oc-svi-text-block {
     border: 2px solid lightblue;
     padding: 10px;
     margin-bottom: 5px;
-    font-family: 'Inter', 'Fira Sans', sans-serif;
     text-align: center;
     background: white;
 }
@@ -112,7 +114,6 @@ h2.oc-svi-text-block {
     grid-template-columns: 1fr 4em 3em;
     column-gap: .5em;
     flex-grow: 1;
-    font-family: 'Inter', 'Fira Sans', sans-serif;
     width: 800px;
     /*height: 48px;*/
     padding: .5em 1em .5em 1em;
@@ -150,7 +151,6 @@ h2.oc-svi-text-block {
 }
 
 #oc-svi-assembly-label {
-    font-family: "Fira Sans Light", sans-serif;
     font-size: small;
     font-weight: 200;
     text-transform: uppercase;
@@ -186,12 +186,10 @@ h2.oc-svi-text-block {
 #oc-svi-error {
     align-self: center;
     font-size: 18px;
-    font-family: 'Inter', 'Fira Sans', sans-serif;
     text-align: center;
 }
 
 .oc-svi-text-button {
-    font-family: 'Inter', 'Fira Sans', sans-serif;
     font-size: 16px;
     border: none;
     border-bottom: 1px #11557C dotted;
