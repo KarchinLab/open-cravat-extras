@@ -1,6 +1,7 @@
 #oc-svi {
     width: 100%;
     padding: 10px;
+    font-family: 'Inter', 'Fira Sans', sans-serif;
 }
 
 h1.oc-svi-text-block {
@@ -27,11 +28,13 @@ h2.oc-svi-text-block {
 
 .oc-svi-text-block {
     max-width: 781px;
-    /*margin-left: 10px;*/
     margin: .5em;
     font-family: 'Inter', 'Fira Sans', sans-serif;
     color: #ffffff;
     text-align: center;
+}
+.oc-svi-light-theme .oc-svi-text-block {
+    color: black;
 }
 
 #oc-svi-examples.show-examples {
@@ -134,8 +137,8 @@ h2.oc-svi-text-block {
 
 .oc-svi-select-container {
     font-size: 18px;
-    border-left: 1px solid #ffffff;
-    border-right: 1px solid #ffffff;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
     border-top: none;
     border-bottom: none;
     width: 100%;
@@ -184,7 +187,6 @@ h2.oc-svi-text-block {
     align-self: center;
     font-size: 18px;
     font-family: 'Inter', 'Fira Sans', sans-serif;
-    color: #ffffff;
     text-align: center;
 }
 
@@ -200,4 +202,8 @@ h2.oc-svi-text-block {
     border: none;
     margin-bottom: 1px;
     outline: 1px #11557C dashed;
+}
+.oc-svi-light-theme .oc-svi-text-button {
+    color: black;
+    border-color: #0b3750;
 }

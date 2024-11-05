@@ -216,7 +216,7 @@ document.addEventListener('DOMContentLoaded', ()  => {
                 <button class="oc-svi-text-button oc-svi-light" id="oc-svi-examples-btn">Examples</button>
             </div>
             <form id="oc-svi-form">
-                <input id="oc-svi-input" type="text" placeholder="Enter a variant HGVS, rsID, Clingen Allele Registry ID, or genomic coordinates." />
+                <input id="oc-svi-input" type="text" placeholder="Enter variant HGVS, rsID, Allele Registry ID, or genomic coordinates." />
                 <div class="oc-svi-select-container">
                     <label for="oc-svi-assembly" id="oc-svi-assembly-label">Assembly</label>
                     <select name="oc-svi-assembly" id="oc-svi-assembly">
