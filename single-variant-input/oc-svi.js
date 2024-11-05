@@ -186,7 +186,7 @@ document.addEventListener('DOMContentLoaded', ()  => {
             <div class="oc-svi-text-block">Open Custom Ranked Analysis of Variants Toolkit</div>
             <div id="oc-svi-examples-container" class="oc-svi-text-block">
                 <div id="oc-svi-examples">
-                    <div id="oc-svi-examples-close-btn" title="Close"><img src="close.svg" alt="Close" /></div>
+                    <div id="oc-svi-examples-close-btn" title="Close"></div>
                     <div class="top-list">
                         <button class="example oc-svi-text-button" value="NM_000051.4:c.2413C>T">
                             <div class="example-label">HGVS</div>
@@ -224,7 +224,7 @@ document.addEventListener('DOMContentLoaded', ()  => {
                         <option value="hg19">hg19</option>
                     </select>
                 </div>
-                <button id="oc-svi-submit-button" type="submit" title="Search"><img src="search.svg" alt="Search" /></button>
+                <button id="oc-svi-submit-button" type="submit" title="Search"></button>
             </form>
             <div id="oc-svi-error" class="oc-svi-text-block" style="display: none">
                 Could not determine input type. Please see our <button id="oc-svi-examples-error-btn" class="oc-svi-text-button oc-svi-light" type="button">examples</button>.
