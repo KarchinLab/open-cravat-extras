@@ -94,6 +94,8 @@ function parseCoordinates(input) {
     if (!validBasesRegex.test(parts[2])) { return false; }
     if (!validBasesRegex.test(parts[3])) { return false; }
 
+    parts[2] = parts[2].toUpperCase();
+    parts[3] = parts[3].toUpperCase();
     return parts;
 }
 
@@ -142,6 +144,40 @@ function buildUrl(inputType, input) {
     }
 }
 
+function buildUrlFromPostData(data) {
+    let url = `${API_URL}?`;
+    for (const [key, val] of Object.entries(data)) {
+        url += `${key}=${val}&`;
+    }
+    // strip last &
+    url = url.substring(0, url.length -1);
+    return url;
+}
+
+function buildPostData(inputType, input) {
+    if (inputType === TYPES.HGVS) {
+        const encoded = formatHgvs(input);
+        return {'hgvs': encoded};
+    }
+    if (inputType === TYPES.CLINGEN) {
+        return {'clingen': input};
+    }
+    if (inputType === TYPES.DBSNP) {
+        return {'dbsnp': input};
+    }
+    if (inputType === TYPES.COORDS) {
+        const parts = parseCoordinates(input);
+        const assembly = document.getElementById('oc-svi-assembly').value;
+        return {
+            'chrom': parts[0],
+            'pos': parts[1],
+            'ref_base': parts[2],
+            'alt_base': parts[3],
+            'assembly': assembly
+        };
+    }
+}
+
 // try to determine the input type and do some quick validation, then either show an error or
 // open a link to the single variant page
 function handleSubmit(event) {
@@ -153,10 +189,22 @@ function handleSubmit(event) {
         let error = document.getElementById('oc-svi-error');
         error.style.display = '';
     } else {
-        const url = buildUrl(inputType, input);
-        window.open(url, '_blank');
+        // Emit event for other pages to handle
+        const parameters = buildPostData(inputType, input);
+        const event = new CustomEvent('variantSubmit', {'bubbles': true, 'detail': parameters})
+        const form = document.getElementById('oc-svi-form');
+        form.dispatchEvent(event);
     }
     event.preventDefault();
+}
+
+function navigateToSingleVariantPage(event) {
+    if (!event.detail) { return; }
+
+    const parameters = event.detail;
+    // const url = buildUrl(inputType, input);
+    const url = buildUrlFromPostData(parameters);
+    window.open(url, '_blank');
 }
 
 function showExamples() {
@@ -240,4 +288,9 @@ document.addEventListener('DOMContentLoaded', ()  => {
     Array.from(document.getElementsByClassName('example')).forEach(btn => {
         btn.addEventListener('click', handleExampleButton);
     });
+
+    // handle the form submission with a page navigation *unless* a custom handler is indicated
+    if (!inputContainer.classList.contains('custom-handler')) {
+        inputContainer.addEventListener('variantSubmit', navigateToSingleVariantPage)
+    }
 });
