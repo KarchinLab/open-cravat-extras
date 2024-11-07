@@ -121,8 +121,7 @@ function formatHgvs(hgvs) {
     const hgvsParts = hgvs.toUpperCase().split(':');
     const prefix = hgvsParts[1][0].toLowerCase();
     const end = hgvsParts[1].substring(1);
-    const total = `${hgvsParts[0]}:${prefix}${end}`;
-    return encodeURIComponent(total);
+    return `${hgvsParts[0]}:${prefix}${end}`;
 }
 
 // build url based on the input type
@@ -147,7 +146,7 @@ function buildUrl(inputType, input) {
 function buildUrlFromPostData(data) {
     let url = `${API_URL}?`;
     for (const [key, val] of Object.entries(data)) {
-        url += `${key}=${val}&`;
+        url += `${key}=${encodeURIComponent(val)}&`;
     }
     // strip last &
     url = url.substring(0, url.length -1);
