@@ -227,11 +227,15 @@ function handleExampleButton(evt) {
 // single input form and attach handlers to the newly created objects.
 document.addEventListener('DOMContentLoaded', ()  => {
     let inputContainer = document.getElementById('oc-svi');
+    let title = inputContainer.innerText;
+    if (!title) {
+        title = 'OpenCRAVAT';
+    }
     if (!inputContainer) return;
 
     inputContainer.innerHTML = `
         <div id="oc-svi-container">
-            <h1 id="oc-svi-header" class="oc-svi-text-block">OpenCRAVAT</h1>
+            <h1 id="oc-svi-header" class="oc-svi-text-block">${title}</h1>
             <div class="oc-svi-text-block">Open Custom Ranked Analysis of Variants Toolkit</div>
             <div id="oc-svi-examples-container" class="oc-svi-text-block">
                 <div id="oc-svi-examples">
@@ -294,6 +298,4 @@ document.addEventListener('DOMContentLoaded', ()  => {
     if (!inputContainer.classList.contains('custom-handler')) {
         inputContainer.addEventListener('variantSubmit', navigateToSingleVariantPage)
     }
-    const event = new Event('ready');
-    inputContainer.dispatchEvent(event);
 });
