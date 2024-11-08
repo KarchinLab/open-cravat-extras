@@ -188,6 +188,8 @@ function handleSubmit(event) {
         let error = document.getElementById('oc-svi-error');
         error.style.display = '';
     } else {
+        // close example modal
+        document.getElementById('oc-svi-examples-close-btn').click();
         // Emit event for other pages to handle
         const parameters = buildPostData(inputType, input);
         const event = new CustomEvent('variantSubmit', {'bubbles': true, 'detail': parameters})
