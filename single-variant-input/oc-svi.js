@@ -278,7 +278,7 @@ document.addEventListener('DOMContentLoaded', ()  => {
             <div id="oc-svi-error" class="oc-svi-text-block" style="display: none">
                 Could not determine input type. Please see our <button id="oc-svi-examples-error-btn" class="oc-svi-text-button oc-svi-light" type="button">examples</button>.
             </div>
-            <div class="oc-svi-text-block">Need to annotate more variants? Try our <a href="https://run.opencravat.org" target="_blank" class="oc-svi-text-button oc-svi-light">web app</a> or <a href="https://www.opencravat.org/#get-started" class="oc-svi-text-button oc-svi-light">install locally.</a></divc>
+            <div class="oc-svi-text-block">Need to annotate more variants? Try our <a href="https://run.opencravat.org" target="_blank" class="oc-svi-text-button oc-svi-light">web app</a> or <a href="https://www.opencravat.org/#get-started" target="_blank" class="oc-svi-text-button oc-svi-light">install locally.</a></divc>
         </div>
         `;
     document.getElementById('oc-svi-form').addEventListener('submit', handleSubmit);
