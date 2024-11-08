@@ -231,7 +231,7 @@ document.addEventListener('DOMContentLoaded', ()  => {
 
     inputContainer.innerHTML = `
         <div id="oc-svi-container">
-            <h1 class="oc-svi-text-block">OpenCRAVAT</h1>
+            <h1 id="oc-svi-header" class="oc-svi-text-block">OpenCRAVAT</h1>
             <div class="oc-svi-text-block">Open Custom Ranked Analysis of Variants Toolkit</div>
             <div id="oc-svi-examples-container" class="oc-svi-text-block">
                 <div id="oc-svi-examples">
@@ -278,7 +278,7 @@ document.addEventListener('DOMContentLoaded', ()  => {
             <div id="oc-svi-error" class="oc-svi-text-block" style="display: none">
                 Could not determine input type. Please see our <button id="oc-svi-examples-error-btn" class="oc-svi-text-button oc-svi-light" type="button">examples</button>.
             </div>
-            <div class="oc-svi-text-block">Need to annotate more variants? Try our <a href="https://run.opencravat.org" target="_blank" class="oc-svi-text-button oc-svi-light">web app.</a></divc>
+            <div class="oc-svi-text-block">Need to annotate more variants? Try our <a href="https://run.opencravat.org" target="_blank" class="oc-svi-text-button oc-svi-light">web app</a> or <a href="https://www.opencravat.org/#get-started">install locally.</a></divc>
         </div>
         `;
     document.getElementById('oc-svi-form').addEventListener('submit', handleSubmit);
@@ -294,4 +294,6 @@ document.addEventListener('DOMContentLoaded', ()  => {
     if (!inputContainer.classList.contains('custom-handler')) {
         inputContainer.addEventListener('variantSubmit', navigateToSingleVariantPage)
     }
+    const event = new Event('ready');
+    inputContainer.dispatchEvent(event);
 });
