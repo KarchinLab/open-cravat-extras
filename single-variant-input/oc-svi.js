@@ -227,11 +227,11 @@ function handleExampleButton(evt) {
 // single input form and attach handlers to the newly created objects.
 document.addEventListener('DOMContentLoaded', ()  => {
     let inputContainer = document.getElementById('oc-svi');
-    let title = inputContainer.innerText;
+    if (!inputContainer) return;
+    let title = inputContainer.getAttribute('title');
     if (!title) {
         title = 'OpenCRAVAT';
     }
-    if (!inputContainer) return;
 
     inputContainer.innerHTML = `
         <div id="oc-svi-container">
