@@ -12,8 +12,7 @@
  **/
 
 // Base URL for the single variant page
-// const API_URL = 'https://run.opencravat.org/webapps/variantreport/index.html';
-const API_URL = 'http://0.0.0.0:8080/webapps/variantreport/index.html';
+const API_URL = 'https://run.opencravat.org/webapps/variantreport/index.html';
 // types of input allowed
 class TYPES {
     static DBSNP = 'dbsnp';
