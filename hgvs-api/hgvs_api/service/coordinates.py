@@ -1,18 +1,22 @@
 import logging
+import os
 
 # from hgvs.easy import *
-import hgvs
 import hgvs.parser
 import hgvs.normalizer
 import hgvs.validator
 from hgvs.assemblymapper import AssemblyMapper
-from cdot.hgvs.dataproviders import RESTDataProvider
+from cdot.hgvs.dataproviders import JSONDataProvider
 from hgvs.exceptions import HGVSParseError, HGVSError, HGVSDataNotAvailableError
 
 # parser
 hp = hgvs.parser.Parser()
 # data provider
-hdp = RESTDataProvider()  # cdot API server at cdot.cc
+# hdp = RESTDataProvider()  # cdot API server at cdot.cc
+cdot_dir = '/mnt/cdot'
+cdot_files = os.listdir(cdot_dir)
+full_cdot_files = sorted([os.path.join(cdot_dir, x) for x in cdot_files])
+hdp = JSONDataProvider(full_cdot_files)  # Uses local JSON file
 # normalizer
 hn = hgvs.normalizer.Normalizer(hdp)
 # validator
@@ -210,14 +214,14 @@ def get_coordinates(hgvs_string):
 
 
 def get_all_coordinates(hgvs_list):
-    coordinates = []
-    errors = []
+    coordinates = {}
+    errors = {}
     for hgvs_string in hgvs_list:
         r = get_coordinates(hgvs_string)
         if type(r) is str:
-            errors.append(r)
+            errors[hgvs_string] = r
         else:
-            coordinates.append(r)
+            coordinates[hgvs_string] = r
 
     response = {"coordinates": coordinates}
     if len(errors) > 0:

@@ -3,9 +3,11 @@ services:
   hgvs_api:
     build:
       context: ./hgvs_api/
-    command: gunicorn app:app --bind 0.0.0.0:8000
+    command: gunicorn app:app -w 1 --timeout 600 --bind 0.0.0.0:8000
     expose:
       - 8000
+    volumes:
+      - /local/dockervolumes/cdot:/mnt/cdot
     hostname: hgvs_api
 
   nginx:
