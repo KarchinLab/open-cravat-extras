@@ -5,6 +5,7 @@ import os
 import hgvs.parser
 import hgvs.normalizer
 import hgvs.validator
+from cdot.hgvs import fix_hgvs
 from hgvs.assemblymapper import AssemblyMapper
 from cdot.hgvs.dataproviders import JSONDataProvider
 from hgvs.exceptions import HGVSParseError, HGVSError, HGVSDataNotAvailableError
@@ -133,8 +134,10 @@ def validate_if_coding(variant):
 
 def get_coordinates(hgvs_string):
     # 1. Parse
+    f, fixes =  fix_hgvs(hgvs_string)
+    logging.warning(f'fixes: {"\n".join([str(fix) for fix in fixes])}')
     try:
-        v = hp.parse(hgvs_string)
+        v = hp.parse(f)
     except HGVSParseError as e:
         return repr(e)
     logging.warning(f'v: {str(v)}')

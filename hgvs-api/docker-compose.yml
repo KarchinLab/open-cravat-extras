@@ -16,4 +16,6 @@ services:
       - "8000:8000"
     volumes:
       - ./nginx/conf.d/:/etc/nginx/conf.d/
+    depends_on: 
+      - hgvs_api
     container_name: nginx
